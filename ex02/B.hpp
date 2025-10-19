@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   B.hpp                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aobshatk <aobshatk@42warsaw.pl>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 17:06:04 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/10/18 17:23:05 by aobshatk         ###   ########.fr       */
+/*   Created: 2025/10/19 13:00:26 by aobshatk          #+#    #+#             */
+/*   Updated: 2025/10/19 13:00:50 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Serializer.hpp"
+#ifndef B_H
+#define B_H
 
-int main(void)
-{
-	Data original;
-	original.val = 5;
+#include "Base.hpp"
 
-	std::cout << "deserialized " << Serializer::deserialize(Serializer::serialize(&original)) << " original " << &original << std::endl;
-	std::cout << "deserialized value " << (Serializer::deserialize(Serializer::serialize(&original)))->val << " original " << original.val << std::endl;
-	return 0;
-}
+class B : public Base {};
+
+#endif

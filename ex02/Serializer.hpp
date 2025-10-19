@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Serializer.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aobshatk <aobshatk@42warsaw.pl>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 17:06:04 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/10/18 17:23:05 by aobshatk         ###   ########.fr       */
+/*   Created: 2025/10/18 16:34:43 by aobshatk          #+#    #+#             */
+/*   Updated: 2025/10/19 17:17:19 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Serializer.hpp"
+#ifndef SERIALIZER_H
+#define SERIALIZER_H
 
-int main(void)
+#include <stdint.h>
+#include <iostream>
+
+class Base;
+
+class Serializer
 {
-	Data original;
-	original.val = 5;
+	Serializer(void);
+	Serializer(Serializer const & copy);
+	~Serializer(void);
+	public:
+		static uintptr_t serialize(Base * ptr);
+		static Base *deserialize(uintptr_t raw);
+};
 
-	std::cout << "deserialized " << Serializer::deserialize(Serializer::serialize(&original)) << " original " << &original << std::endl;
-	std::cout << "deserialized value " << (Serializer::deserialize(Serializer::serialize(&original)))->val << " original " << original.val << std::endl;
-	return 0;
-}
+#endif

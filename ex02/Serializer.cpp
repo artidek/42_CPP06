@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Serializer.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aobshatk <aobshatk@42warsaw.pl>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 17:06:04 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/10/18 17:23:05 by aobshatk         ###   ########.fr       */
+/*   Created: 2025/10/18 17:01:15 by aobshatk          #+#    #+#             */
+/*   Updated: 2025/10/19 17:17:16 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Serializer.hpp"
+#include "Base.hpp"
 
-int main(void)
+uintptr_t  Serializer::serialize(Base *pointer)
 {
-	Data original;
-	original.val = 5;
+	return reinterpret_cast<uintptr_t>(pointer);
+}
 
-	std::cout << "deserialized " << Serializer::deserialize(Serializer::serialize(&original)) << " original " << &original << std::endl;
-	std::cout << "deserialized value " << (Serializer::deserialize(Serializer::serialize(&original)))->val << " original " << original.val << std::endl;
-	return 0;
+Base	*Serializer::deserialize(uintptr_t pointer)
+{
+	return reinterpret_cast<Base*>(pointer);
 }
