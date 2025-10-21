@@ -6,7 +6,7 @@
 /*   By: aobshatk <aobshatk@42warsaw.pl>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 13:03:49 by aobshatk          #+#    #+#             */
-/*   Updated: 2025/10/19 19:26:34 by aobshatk         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:21:06 by aobshatk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
-#include "Serializer.hpp"
+#include <iostream>
+
+void printClass(char c){std::cout << c << " identified\n";}
 
 Base * generate(void)
 {
-	uintptr_t p;
 	Base *b;
 	
 	int rVal = rand() % 3;
@@ -38,44 +39,69 @@ Base * generate(void)
 		std::cout << "class C has been generated\n";
 		break;
 	}
-	p = Serializer::serialize(b);
-	p |= static_cast<uint8_t>(rVal);
-	b = Serializer::deserialize(p);
 	return b;
 }
 
 void identify(Base *p)
 {
-	uintptr_t up;
-
-	up = Serializer::serialize(p);
-	int i = up & static_cast<uint8_t>(0x3);
-	switch (i)
-	{
-	case 0:
-		std::cout << "Class A identified\n";
-		break;
-	case 1:
-		std::cout << "Class B identified\n";
-		break;
-	case 2:
-		std::cout << "Class C identified\n";
-		break;
-	}
+	if (dynamic_cast<A*>(p))
+		printClass('A');
+	else if (dynamic_cast<B*>(p))
+		printClass('B');
+	else if (dynamic_cast<C*>(p))
+		printClass('C');
 }
 
 void identify(Base &p)
 {
-	identify(&p);
+	std::string err;
+
+	try
+	{
+		dynamic_cast<A&>(p);
+	}
+	catch(const std::exception& e)
+	{
+		err = e.what();
+	}
+	if (err.empty())
+		printClass('A');
+	else
+		err.clear();
+	try
+	{
+		dynamic_cast<B&>(p);
+	}
+	catch(const std::exception& e)
+	{
+		err = e.what();
+	}
+	if (err.empty())
+		printClass('B');
+	else
+		err.clear();
+	try
+	{
+		dynamic_cast<C&>(p);
+	}
+	catch(const std::exception& e)
+	{
+		err = e.what();
+	}
+	if (err.empty())
+		printClass('C');
+	else
+		err.clear();
 }
 
 int main (void)
 {
 	Base *test;
-
+	
 	srand(time(0));
 	test = generate();
 	identify(test);
 	identify(*test);
+	delete test;
 	return 0;
 }
